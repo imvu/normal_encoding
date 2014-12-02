@@ -1,5 +1,6 @@
-#include <cmath>
 #include "normal_encoding.hpp"
+
+#include <cmath>
 
 static const float c_pi = 3.14159265358979323846f;
 static const float c_2pi = 2 * c_pi;
@@ -217,8 +218,8 @@ static const int16_t offset_table[] = {
 
 uint16_t encode(const float3& v)
 {
-	float phi = acos(v.z);
-	float theta = atan2(v.y, v.x);
+	float phi = std::acos(v.z);
+	float theta = std::atan2(v.y, v.x);
 	if (theta < 0) theta += c_2pi;
 
 	int i = static_cast<int>(phi * (Nphi - 1) / c_pi + 0.5f);
@@ -261,7 +262,11 @@ float3 decode(uint16_t s)
 
 	float phi = i * c_pi / (Nphi - 1);
 	float theta = j * c_2pi / Nthetas[i];
-	float3 v = {sin(phi) * cos(theta), sin(phi) * sin(theta), cos(phi)};
+	float3 v = {
+		std::sin(phi) * std::cos(theta),
+		std::sin(phi) * std::sin(theta),
+		std::cos(phi)
+	};
 	return v;
 }
 
