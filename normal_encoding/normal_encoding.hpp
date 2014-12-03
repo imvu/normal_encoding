@@ -1,6 +1,10 @@
 #pragma once
 
-#include <cstdint>
+#if defined(__clang__) && __clang_major__ <= 3 && __clang_minor__ <= 1
+  #include <stdint.h>
+#else
+  #include <cstdint>
+#endif
 
 struct float3
 {
